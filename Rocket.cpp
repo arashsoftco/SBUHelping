@@ -1,7 +1,4 @@
-/*
-    Author: http://HelloACM.com
-            http://CodingForSpeed.com
-*/
+
 #include <stdio.h>
 #include <unistd.h> // for usleep function
  
@@ -30,6 +27,6 @@ int main()
         j = (int)(j * 0.9); // so sleep less each time
         printf("\n"); // move rocket a line upward
     }
-    printf("Visit http://HelloACM.com !\n");
+
     return 0;
 }
