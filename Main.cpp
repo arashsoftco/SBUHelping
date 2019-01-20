@@ -1,13 +1,12 @@
 
 #include <iostream>
 #include <windows.h>
-//#include <boost>
+//#include <boost>  //Multi Threating Color Dance
 
 
 using namespace std;
 
 	HWND consoleWindow = GetConsoleWindow();
-
 	
 	
 #define WX 190
@@ -15,7 +14,7 @@ using namespace std;
 #define MAX 201
 
 
-bool trouble = false;
+bool IsProblem = false;
 
 typedef class A2PS 
 {
@@ -23,13 +22,22 @@ typedef class A2PS
 	public: int size = 0;
 public:	bool sign = 0;
 
+	/* eg
+		
+		a=23  a.sign = 0
+		a=+23 a.sign=0
+		a=-23 a.sign=1
+		
+		*/
+		
+
 
 
 };
 
 
 
-void helloworld()
+void ColorDance()
 {
 	
 	while(1)
@@ -105,7 +113,7 @@ int main()
 	SetWindowPos(consoleWindow, 0, WX, WY, 0, 0, SWP_NOSIZE | SWP_NOZORDER);  ///Graphical
 	
 STR:
-	  trouble=0;
+	  IsProblem=0;
 	ArashASCIGART();  //Graphic
 	
 	A2PS a , b;
@@ -113,13 +121,14 @@ STR:
 	Location(2,2); //Graphic
 	cout<<"First Num:";
 	Location(2,4); //Graphic
-	cout<<char(175)<<"  ";
+	cout<<char(175)<<char(175)<<"  ";
 			
 			// cahr 175 is  //Graphic
 			
 	a = input();
 	
-	if(trouble)
+
+	if(IsProblem)
 
 		goto ProblemF;
 	
@@ -159,130 +168,154 @@ int op;
 	
 	
 	
-	if(op == 5) {
+	if(op == 5)
+	 {
+		
+		if (a.sign)
+		{
+				IsProblem=1;
+				cout<<"\a";
+					MessageBox(NULL, TEXT( "I can not Find That root" ), TEXT( "Sorry !!!!!  ;(   )" ), MB_OK | MB_ICONSTOP);
+	
+	       goto ProblemF;
+		}
+		else
+		{
 		cout<<char(175)<<"  "<<char(251);
 		SBUCalOUT(a);
-		cout<<" = ";
+		cout<<" :D => ";
 		SBUCalOUT(Sqr(a));
-		goto Final;
+		goto Final;	
+		}
+	
 	}
 
 
 	cout<<"Second Num:";
 	Location(2,17);
-	cout<<char(175)<<"  ";
+	cout<<char(175)<<char(175)<<"  ";
 	
 	b = input();
 	
-	if(trouble)
+	if(IsProblem)
 		goto ProblemF;
 		
 	Location(2,19);
 	cout<<char(175)<<"  ";
 		
-	if (op == 1) {
+	if (op == 1)  
+	{
 		
 		cout<<" = ";
 		
-		if(!a.sign) {
-			
-			if(!b.sign) {
-				
-				SBUCalOUT(Sum(a , b));
-				goto Final;
-				
-			}
-			
-			else {
-				
-				SBUCalOUT(Sub(a , b));
-				goto Final;
-				
-			}
-
-		}
 		
-		else {
+		if(a.sign){
 			
-			if(!b.sign) {
-				
-				SBUCalOUT(Sub(b , a));
-				goto Final;
-				
-			}
-			
-			else {
-				
-				A2PS c;
+			if(b.sign) 
+			{
+					A2PS c;
 				c = Sum(a , b);
 				c.sign = true;
 				SBUCalOUT(c);
+				goto Final;
+			
+				
+			}
+			
+			else
+			 {
+				
+			SBUCalOUT(Sub(b , a));
 				goto Final;
 				
 			}
 						
 		}
 		
+		else {
+			
+			if(b.sign) 
+			{
+				
+		    	SBUCalOUT(Sub(a , b));
+				goto Final;
+				
+		
+				
+			}
+			
+			else 
+			{
+				
+				
+				SBUCalOUT(Sum(a , b));
+				goto Final;
+				
+			}
+
+		}
+		
+	
+		
 	}
+
+
+
 
 	if (op == 2)    // sub
 	{
 		
 		cout<<" = ";
 		
-		/* eg
-		
-		a=23  a.sign = 0
-		a=23 a.sign=1
-		a=-23 a.sign=1
-		
-		*/
-		
-		
-		
-		if(a.sign==0)    // eg : a=23
-		
-		 {	
-			
-			if(b.sign==0) {
-				// eg 23,14
-				SBUCalOUT(Sub(a , b));
-				goto Final;
-				
-			}
-			
-			else {
-				// 23 , -13
-				SBUCalOUT(Sum(a , b));
-				goto Final;
-				
-			}
-			
-		}
-		
-		else   // a = -23
+	
+			if(a.sign)    // a = -23  
 		
 		 {
 			
-			if(b.sign==0)  // a:-23  b:
+			if(b.sign)  // a:-23  b: 23 || b:+23
 			{
 				
-				A2PS c;
-				c = Sum(a , b);
-				c.sign = true;
-				SBUCalOUT(c);
+						SBUCalOUT(Sub(b , a));
 				goto Final;
+			// -23 - 23
+		
 				
 			}
 			
-			else {
+			else {  // a:-23  b:-23
 				
-				SBUCalOUT(Sub(b , a));
+				A2PS c;
+		     	c.sign = true;
+				c = Sum(a , b);
+				SBUCalOUT(c);
 				goto Final;
 				
 			}
 						
 		}
+		
+	else   // eg : a=23  || a=+23
+		
+			 {	
+				if(b.sign) {
+					// eg 23,14
+								SBUCalOUT(Sum(a , b));
+				goto Final;
+			
+				
+				}
+			
+				else {
+				// 23 , -13
+	
+						SBUCalOUT(Sub(a , b));
+					goto Final;
+					
+					}
+			
+				}
+		
+	
 	}
 	
 	if (op == 3) {
@@ -292,10 +325,13 @@ int op;
 		goto Final;
 	}
 	
-	if (op == 4) {
+	if (op == 4) 
+	{
+		
 		A2PS c;
+	
 		c = Divi(a , b);
-		if(trouble)
+		if(IsProblem)
 			goto ProblemF;
 		cout<<" = ";
 		SBUCalOUT(c);
@@ -330,7 +366,7 @@ system("pause");
 ProblemF:
 	
 	{		
-			trouble = false;
+			IsProblem = false;
 			Location(0,23);
 	
 //
@@ -338,13 +374,6 @@ ProblemF:
 
 	
 shaking();
-
-
- //Graphic
-  //Shaking... :)
- 
- //Graphic
-//// Shaking Finish
 
 
 cout<<endl;
@@ -370,7 +399,7 @@ A2PS input()
 	int a[MAX];
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
  	GetConsoleScreenBufferInfo(GetStdHandle( STD_OUTPUT_HANDLE ),&csbi);
- 	cout<<"0";
+ 	cout<<"[^-^]";
  	Location(csbi.dwCursorPosition.X , csbi.dwCursorPosition.Y);
 	
 	do {
@@ -384,7 +413,7 @@ A2PS input()
 			
 			MessageBox(NULL, TEXT( "Wrong Input!" ), TEXT( "Error" ), MB_OK );
 			
-			trouble = true;
+			IsProblem = true;
 			return out;
 			
 		}
@@ -427,15 +456,13 @@ bool checks(string s)
 	for(int i = 0 ; i < s.size() ; i++ ) 
 	{
 	
-		if( !(s[i] == '-' || s[i] == '+') && sign)
+		if( s[i] != '-' || s[i] != '+' && sign)   
 		 {
 			
-			if(s[i] >= '0' && s[i]<='9')
-				sign = false;
-		
-			else
-				return false;
-		
+			if(s[i] < '0' || s[i]>'9')
+					return false;
+				else
+					sign = false;	
 		}
 		
 		if( !sign && !(s[i]>='0' && s[i]<='9') )
@@ -614,9 +641,9 @@ A2PS ShiftRight(A2PS in , int L) {
 A2PS Divi(A2PS a ,A2PS b) {
 	
 	A2PS out;
-	
+
 	if(b.D[0] == 0) {
-		trouble = true;
+		IsProblem = true;
 		cout<<"\a\a";
 		MessageBox(NULL, TEXT( "It doesn't have Meaning..." ), TEXT( "WHAAAATT !!!!!  :(   )" ), MB_OK | MB_ICONEXCLAMATION);
 		return out;
@@ -644,12 +671,14 @@ A2PS Divi(A2PS a ,A2PS b) {
 		}
 	}
 	
+			out.sign = (a.sign xor b.sign);
 	return AnayzeData(out);
 }
 
 
 A2PS Sqr(A2PS in) {
 	
+
 	A2PS out;
 	
 	A2PS ten;
@@ -701,7 +730,7 @@ int timem=0;
 			{
 
 
-  trouble=0;
+  IsProblem=0;
 for (size_t i = WX; i < WX+10; i++)
 			{
 				SetWindowPos(consoleWindow, 0, i, i, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
